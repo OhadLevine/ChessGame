@@ -6,6 +6,9 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Splash extends AppCompatActivity {
 
     @Override
@@ -14,19 +17,14 @@ public class Splash extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Thread timerThread = new Thread() {
+        TimerTask tt = new TimerTask() {
+            @Override
             public void run() {
-                try {
-                    sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    Intent intent = new Intent(Splash.this, GameActivity.class);
-                    finish();
-                    startActivity(intent);
-                }
+                Intent i = new Intent(Splash.this, GameActivity.class);
+                startActivity(i);
             }
         };
-        timerThread.start();
+        Timer t = new Timer();
+        t.schedule(tt, 3000);
     }
 }

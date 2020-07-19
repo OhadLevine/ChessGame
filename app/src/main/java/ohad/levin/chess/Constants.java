@@ -6,7 +6,7 @@ public class Constants {
     public static class DefaultPiecePositions {
         public static final Position kWhiteKing = new Position('E', 8);
 
-        public static final Position kDefaultBlackKingPosition = new Position('E', 1);
+        public static final Position kBlackKing = new Position('E', 1);
     }
 
 

@@ -24,13 +24,12 @@ public class King extends Piece {
      * @param isWhite Is the king white.
      * @param position The position where the king will be created.
      */
-    public King(boolean isWhite, Position position) {
-        this.isWhite = isWhite;
-        this.position = position;
+    King(boolean isWhite, Position position) {
+        super(isWhite, position);
     }
 
     @Override
-    public ArrayList<Position> moves() {
+    public ArrayList<Position> possibleMoves() {
         ArrayList<Position> positions = new ArrayList<>();
         for (int i = getPosition().getFile() - 1; i < 3; i++) {
             for (int j = getPosition().getRow() - 1; j < 3; j++) {
@@ -52,7 +51,7 @@ public class King extends Piece {
     }
 
     @Override
-    public void move(Position toMove) {
+    public void makeMove(Position toMove) {
 
     }
 

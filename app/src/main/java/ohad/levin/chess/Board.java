@@ -1,26 +1,38 @@
 package ohad.levin.chess;
 
+import java.util.ArrayList;
+
 public class Board {
     private Position[][] squares;
+    private ArrayList<Position> attackedSpots = new ArrayList<>();
 
-    Board(){}
+    Board() {
+        createPieces();
+    }
 
     public boolean isEmpty(int file, int row) {
         return true;
     }
 
-    public void createPieces() {
+    private void createPieces() {
 
     }
 
-    public void add() {
+    public void addPiece(Position placeToAdd) {
 
     }
 
-    public void remove () {
+    public void removePiece(Position placeToRemove) {
 
     }
 
+    public void addToAttackedSpots(Position position) {
+        attackedSpots.add(position);
+    }
+
+    public void removeFromAttackedSpots(Position position) {
+        attackedSpots.remove(position);
+    }
     public boolean hasEnemyPieces(boolean isWhite) {
         return true;
     }

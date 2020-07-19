@@ -18,6 +18,5 @@ public class GameActivity extends AppCompatActivity {
         board = new Board();
         constants = new Constants();
         gameManager = new GameManager(this);
-
     }
 }

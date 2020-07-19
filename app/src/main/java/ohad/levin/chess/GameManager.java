@@ -1,5 +1,7 @@
 package ohad.levin.chess;
 
+import android.app.AlertDialog;
+
 public class GameManager {
     private GameActivity gameActivity;
 
@@ -7,7 +9,9 @@ public class GameManager {
         this.gameActivity = gameActivity;
     }
 
-    public void alert(String message) {
+    public void resetGame(){}
+
+    public void alert(AlertDialog.Builder ad, String message) {
 
     }
 }

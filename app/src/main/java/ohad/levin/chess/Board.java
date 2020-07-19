@@ -38,6 +38,10 @@ public class Board {
         attackedSpots.remove(position);
     }
 
+    public ArrayList<Position> getAttackedSpots() {
+        return attackedSpots;
+    }
+
     public boolean hasEnemyPieces(int file, int row, boolean isWhite) {
         return true;
     }

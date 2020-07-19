@@ -1,5 +1,8 @@
 package ohad.levin.chess.pieces;
 
+import android.app.AlertDialog;
+import android.view.View;
+
 import java.util.ArrayList;
 
 import ohad.levin.chess.Constants;
@@ -70,18 +73,18 @@ public class King extends Piece {
         return true;
     }
 
+    public boolean isInCheck() {
+        return board.getAttackedSpots().contains(getPosition()) ? true : false;
+    }
+
     @Override
     public void makeMove(Position toMove) {
-        if (possibleMoves().contains(toMove)) {
             for (Position p : possibleMoves())
                 board.removeFromAttackedSpots(p);
             setPosition(toMove);
             for (Position p : possibleMoves())
                 board.addToAttackedSpots(p);
             this.didMove = true;
-        } else {
-            GameActivity.gameManager.alert("ILLEGAL MOVE! PLEASE TRY AGAIN!!!");
-        }
     }
 
     @Override

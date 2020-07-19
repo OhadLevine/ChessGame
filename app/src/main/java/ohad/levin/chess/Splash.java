@@ -21,8 +21,7 @@ public class Splash extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
-                    Intent intent = new
-                            Intent(Splash.this, GameActivity.class);
+                    Intent intent = new Intent(Splash.this, GameActivity.class);
                     finish();
                     startActivity(intent);
                 }

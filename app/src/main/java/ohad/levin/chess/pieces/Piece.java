@@ -1,15 +1,14 @@
 package ohad.levin.chess.pieces;
 
+import java.util.ArrayList;
+
 import ohad.levin.chess.Position;
 
 public class Piece {
-    Position position;
-    int rating;
-    boolean isWhite;
+    protected Position position;
+    protected boolean isWhite;
 
-    public Piece() {}
-
-    public Position[] movablePlaces() {
+    public ArrayList<Position> moves() {
         return null;
     }
 
@@ -19,9 +18,9 @@ public class Piece {
 
     public Position getDefaultPosition(boolean isWhite) { return null; }
 
-    public void getPosition() {}
+    public Position getPosition() { return null; }
 
-    public void setPosition() {}
+    public void setPosition(Position position) {}
 
-    public void isWhite() {}
+    public boolean isWhite() { return this.isWhite; }
 }

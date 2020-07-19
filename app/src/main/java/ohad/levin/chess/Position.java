@@ -1,10 +1,14 @@
 package ohad.levin.chess;
 
 public class Position {
-    private char file;
+    private int file;
     private int row;
 
     Position(char file, int row) {
+        this((int)file, row);
+    }
+
+    public Position(int file, int row) {
         this.row = row;
         this.file = file;
     }
@@ -17,7 +21,7 @@ public class Position {
         this.row = row;
     }
 
-    public char getFile() {
+    public int getFile() {
         return file;
     }
 
@@ -25,11 +29,12 @@ public class Position {
         this.file = file;
     }
 
+    public char getCharFile(int file) {
+        return (char) (file + 65);
+    }
+
     @Override
     public String toString() {
-        return "Position{" +
-                "row=" + row +
-                ", file=" + file +
-                '}';
+        return getCharFile(file)+ row + "";
     }
 }

@@ -2,6 +2,8 @@ package ohad.levin.chess;
 
 import java.util.ArrayList;
 
+import ohad.levin.chess.pieces.King;
+
 public class Board {
     private Position[][] squares;
     private ArrayList<Position> attackedSpots = new ArrayList<>();
@@ -15,7 +17,9 @@ public class Board {
     }
 
     private void createPieces() {
+        King whiteKing = new King(true);
 
+        King blackKing = new King(false);
     }
 
     public void addPiece(Position placeToAdd) {

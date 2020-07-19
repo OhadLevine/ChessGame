@@ -3,7 +3,7 @@ package ohad.levin.chess;
 /** This class is used to store all of the constants relating to the game */
 public class Constants {
 
-    public static class DefaultPiecePositions {
+    public static final class DefaultPiecePositions {
         public static final Position kWhiteKing = new Position('E', 8);
 
         public static final Position kBlackKing = new Position('E', 1);

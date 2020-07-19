@@ -5,13 +5,6 @@ import java.util.ArrayList;
 import ohad.levin.chess.Position;
 
 public class Piece {
-    private boolean isWhite;
-    private Position position;
-
-    protected Piece(boolean isWhite, Position position) {
-        this.isWhite = isWhite;
-        this.position = position;
-    }
 
     public ArrayList<Position> possibleMoves() {
         return null;
@@ -28,5 +21,7 @@ public class Piece {
 
     public void setPosition(Position position) {}
 
-    public boolean isWhite() { return this.isWhite; }
+    public boolean isWhite() {
+        return true;
+    }
 }

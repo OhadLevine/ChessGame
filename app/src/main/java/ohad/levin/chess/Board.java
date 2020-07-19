@@ -33,11 +33,12 @@ public class Board {
     public void removeFromAttackedSpots(Position position) {
         attackedSpots.remove(position);
     }
-    public boolean hasEnemyPieces(boolean isWhite) {
+
+    public boolean hasEnemyPieces(int file, int row, boolean isWhite) {
         return true;
     }
 
-    public boolean positionAttacked(boolean isWhite) {
+    public boolean positionAttacked(int file, int row, boolean isWhite) {
         return true;
     }
 }

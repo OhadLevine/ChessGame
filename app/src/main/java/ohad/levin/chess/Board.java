@@ -4,49 +4,47 @@ import java.util.ArrayList;
 
 import ohad.levin.chess.pieces.King;
 
-public class Board {
-    private Position[][] squares;
-    private ArrayList<Position> attackedSpots = new ArrayList<>();
+public final class Board {
+    private static ArrayList<Position> whiteAttackedPositions = new ArrayList<>();
+    private static ArrayList<Position> blackAttackedPositions = new ArrayList<>();
+    private static ArrayList<Position> whitePositions = new ArrayList<>();
+    private static ArrayList<Position> blackPositions = new ArrayList<>();
 
-    Board() {
-        createPieces();
+    private Board() {
     }
 
-    public boolean isEmpty(int file, int row) {
-        return true;
+    public static boolean isEmpty(Position pos) {
+        return whitePositions.contains(pos) || blackPositions.contains(pos);
+    }
+    public static void addPieceInPosition(Position pos, boolean isWhite) {
+        if (isWhite) whitePositions.add(pos);
+        else blackPositions.add(pos);
     }
 
-    private void createPieces() {
-        King whiteKing = new King(true);
-
-        King blackKing = new King(false);
+    public static void removePieceInPosition(Position pos, boolean isWhite) {
+        if (isWhite) whitePositions.remove(pos);
+        else blackPositions.remove(pos);
     }
 
-    public void addPiece(Position placeToAdd) {
-
+    public static boolean hasEnemyPieces(Position pos, boolean isWhite) {
+        return isWhite ? blackPositions.contains(pos) : whitePositions.contains(pos);
     }
 
-    public void removePiece(Position placeToRemove) {
-
+    public static void addAttackedPosition(Position pos, boolean isWhite) {
+        if (isWhite) blackAttackedPositions.add(pos);
+        else whiteAttackedPositions.add(pos);
     }
 
-    public void addToAttackedSpots(Position position) {
-        attackedSpots.add(position);
+    public static void removeAttackedPosition(Position pos, boolean isWhite) {
+        if (isWhite) blackAttackedPositions.remove(pos);
+        else whiteAttackedPositions.remove(pos);
     }
 
-    public void removeFromAttackedSpots(Position position) {
-        attackedSpots.remove(position);
+    public static ArrayList<Position> getAttackedPositions(boolean isWhite) {
+        return isWhite ? whiteAttackedPositions : blackAttackedPositions;
     }
 
-    public ArrayList<Position> getAttackedSpots() {
-        return attackedSpots;
-    }
-
-    public boolean hasEnemyPieces(int file, int row, boolean isWhite) {
-        return true;
-    }
-
-    public boolean positionAttacked(int file, int row, boolean isWhite) {
-        return true;
+    public static boolean positionAttacked(Position pos, boolean isWhite) {
+        return isWhite ? whiteAttackedPositions.contains(pos) : blackAttackedPositions.contains(pos);
     }
 }

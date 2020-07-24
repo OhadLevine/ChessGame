@@ -9,7 +9,9 @@ public class GameManager {
         this.gameActivity = gameActivity;
     }
 
-    public void resetGame(){}
+    public void resetGame(){
+
+    }
 
     public void alert(AlertDialog.Builder ad, String message) {
 

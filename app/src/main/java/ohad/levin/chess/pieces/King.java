@@ -1,15 +1,10 @@
 package ohad.levin.chess.pieces;
 
-import android.app.AlertDialog;
-import android.view.View;
-
 import java.util.ArrayList;
 
+import ohad.levin.chess.Board;
 import ohad.levin.chess.Constants;
-import ohad.levin.chess.GameActivity;
 import ohad.levin.chess.Position;
-
-import static ohad.levin.chess.GameActivity.board;
 public class King extends Piece {
     private static final int kKingsRookFile = 8;
     private static final int kQueensRookFile = 1;
@@ -31,12 +26,13 @@ public class King extends Piece {
     /**
      * Creates a new king piece.
      *
-     * @param isWhite Is the king white.
+     * @param isWhite  Is the king white.
      * @param position The position where the king will be created.
      */
     King(boolean isWhite, Position position) {
         this.isWhite = isWhite;
         this.position = position;
+        Board.addPieceInPosition(position, isWhite);
     }
 
     @Override
@@ -44,7 +40,8 @@ public class King extends Piece {
         ArrayList<Position> positions = new ArrayList<>();
         for (int i = getPosition().getFile() - 1; i < kMoveArea; i++) {
             for (int j = getPosition().getRow() - 1; j < kMoveArea; j++) {
-                if ((board.isEmpty(i, j) || board.hasEnemyPieces(i, j, isWhite)) && !board.positionAttacked(i, j, isWhite))
+                if ((Board.isEmpty(new Position(i, j)) || Board.hasEnemyPieces(new Position(i, j),
+                        isWhite)) && !Board.positionAttacked(new Position(i, j), isWhite))
                     positions.add(new Position(i, j));
             }
         }
@@ -56,8 +53,8 @@ public class King extends Piece {
     private boolean canLongCastle() {
         boolean isAttacked, isEmpty;
         for (int i = kQueensRookFile; i <= getDefaultPosition(isWhite).getFile(); i++) {
-            isAttacked = board.positionAttacked(i, getDefaultPosition(isWhite).getRow(), isWhite);
-            isEmpty = board.isEmpty(i, getDefaultPosition(isWhite).getRow());
+            isAttacked = Board.positionAttacked(new Position(i, getDefaultPosition(isWhite).getRow()), isWhite);
+            isEmpty = Board.isEmpty(new Position(i, getDefaultPosition(isWhite).getRow()));
             if (isAttacked || isEmpty || didMove) return false;
         }
         return true;
@@ -66,25 +63,27 @@ public class King extends Piece {
     private boolean canShortCastle() {
         boolean isAttacked, isEmpty;
         for (int i = getDefaultPosition(isWhite).getFile(); i <= kKingsRookFile; i++) {
-            isAttacked = board.positionAttacked(i, getDefaultPosition(isWhite).getRow(), isWhite);
-            isEmpty = !board.isEmpty(i, getDefaultPosition(isWhite).getRow());
+            isAttacked = Board.positionAttacked(new Position(i, getDefaultPosition(isWhite).getRow()), isWhite);
+            isEmpty = !Board.isEmpty(new Position(i, getDefaultPosition(isWhite).getRow()));
             if (isAttacked || isEmpty || didMove) return false;
         }
         return true;
     }
 
     public boolean isInCheck() {
-        return board.getAttackedSpots().contains(getPosition()) ? true : false;
+        return Board.getAttackedPositions(isWhite).contains(getPosition()) ? true : false;
     }
 
     @Override
     public void makeMove(Position toMove) {
-            for (Position p : possibleMoves())
-                board.removeFromAttackedSpots(p);
-            setPosition(toMove);
-            for (Position p : possibleMoves())
-                board.addToAttackedSpots(p);
-            this.didMove = true;
+        for (Position p : possibleMoves())
+            Board.removeAttackedPosition(p, isWhite);
+        Board.removePieceInPosition(getPosition(), isWhite);
+        setPosition(toMove);
+        Board.addPieceInPosition(getPosition(), isWhite);
+        for (Position p : possibleMoves())
+            Board.addAttackedPosition(p, isWhite);
+        this.didMove = true;
     }
 
     @Override

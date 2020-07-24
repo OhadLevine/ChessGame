@@ -19,6 +19,11 @@ public class Position {
         this.file = file;
     }
 
+    public boolean exists(){
+        return row > 0 && row <= 8 && file > 0 && file <= 8;
+    }
+
+
     public int getRow() {
         return row;
     }

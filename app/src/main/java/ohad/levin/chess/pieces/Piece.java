@@ -4,24 +4,20 @@ import java.util.ArrayList;
 
 import ohad.levin.chess.Position;
 
-public class Piece {
+public abstract class Piece {
 
-    public ArrayList<Position> possibleMoves() {
-        return null;
-    }
+    /** @return all the possible moves for the specified piece in an array list. */
+    public abstract ArrayList<Position> possibleMoves();
 
-    public void makeMove(Position toMove) {
-    }
+    /** Moves the piece to a specified location, and updates all the new attacked positions.
+     * @param toMove The position to move the new piece to. */
+    public abstract void makeMove(Position toMove);
 
-    public void delete() {}
+    /** @return the default position of the piece. */
+    public abstract Position getDefaultPosition(boolean isWhite);
 
-    public Position getDefaultPosition(boolean isWhite) { return null; }
 
-    public Position getPosition() { return null; }
+    public abstract Position getPosition();
 
-    public void setPosition(Position position) {}
-
-    public boolean isWhite() {
-        return true;
-    }
+    public abstract void setPosition(Position position);
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ohad.levin.chess.Board;
 import ohad.levin.chess.Constants;
 import ohad.levin.chess.Position;
+
 public class King extends Piece {
     private static final int kKingsRookFile = 8;
     private static final int kQueensRookFile = 1;
@@ -40,6 +41,7 @@ public class King extends Piece {
         ArrayList<Position> positions = new ArrayList<>();
         for (int i = getPosition().getFile() - 1; i < kMoveArea; i++) {
             for (int j = getPosition().getRow() - 1; j < kMoveArea; j++) {
+                if (!Board.exists(i, j)) continue;
                 if ((Board.isEmpty(new Position(i, j)) || Board.hasEnemyPieces(new Position(i, j),
                         isWhite)) && !Board.positionAttacked(new Position(i, j), isWhite))
                     positions.add(new Position(i, j));
@@ -51,23 +53,20 @@ public class King extends Piece {
     }
 
     private boolean canLongCastle() {
-        boolean isAttacked, isEmpty;
-        for (int i = kQueensRookFile; i <= getDefaultPosition(isWhite).getFile(); i++) {
-            isAttacked = Board.positionAttacked(new Position(i, getDefaultPosition(isWhite).getRow()), isWhite);
-            isEmpty = Board.isEmpty(new Position(i, getDefaultPosition(isWhite).getRow()));
-            if (isAttacked || isEmpty || didMove) return false;
-        }
+        for (int i = kQueensRookFile; i <= getDefaultPosition(isWhite).getFile(); i++)
+            if(!isLegalCastlingPos(new Position(i, getDefaultPosition(isWhite).getRow()))) return false;
         return true;
     }
 
     private boolean canShortCastle() {
-        boolean isAttacked, isEmpty;
-        for (int i = getDefaultPosition(isWhite).getFile(); i <= kKingsRookFile; i++) {
-            isAttacked = Board.positionAttacked(new Position(i, getDefaultPosition(isWhite).getRow()), isWhite);
-            isEmpty = !Board.isEmpty(new Position(i, getDefaultPosition(isWhite).getRow()));
-            if (isAttacked || isEmpty || didMove) return false;
-        }
+        for (int i = getDefaultPosition(isWhite).getFile(); i <= kKingsRookFile; i++)
+            if(!isLegalCastlingPos(new Position(i, getDefaultPosition(isWhite).getRow()))) return false;
         return true;
+    }
+
+    private boolean isLegalCastlingPos(Position pos) {
+        return !Board.positionAttacked(pos, isWhite) &&
+                Board.isEmpty(pos) && !didMove;
     }
 
     public boolean isInCheck() {
@@ -87,11 +86,6 @@ public class King extends Piece {
     }
 
     @Override
-    public void delete() {
-
-    }
-
-    @Override
     public Position getDefaultPosition(boolean isWhite) {
         return isWhite ? Constants.DefaultPiecePositions.kWhiteKing : Constants.DefaultPiecePositions.kBlackKing;
     }
@@ -104,10 +98,5 @@ public class King extends Piece {
     @Override
     public void setPosition(Position position) {
         this.position = position;
-    }
-
-    @Override
-    public boolean isWhite() {
-        return this.isWhite;
     }
 }

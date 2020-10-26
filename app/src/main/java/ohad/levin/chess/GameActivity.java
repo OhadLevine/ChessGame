@@ -14,6 +14,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        Board.createPositions();
         constants = new Constants();
         gameManager = new GameManager(this);
     }

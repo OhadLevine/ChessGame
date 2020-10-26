@@ -2,19 +2,30 @@ package ohad.levin.chess;
 
 import java.util.ArrayList;
 
-import ohad.levin.chess.pieces.King;
+import ohad.levin.chess.pieces.Piece;
 
 public final class Board {
+    private static Position[][] board;
     private static final int boardMinDimensions = 0;
     private static final int boardMaxDimensions = 8;
 
     private static ArrayList<Position> whiteAttackedPositions = new ArrayList<>();
     private static ArrayList<Position> blackAttackedPositions = new ArrayList<>();
-    private static ArrayList<Position> whitePositions = new ArrayList<>();
-    private static ArrayList<Position> blackPositions = new ArrayList<>();
 
     private Board() {
         throw new AssertionError("***** This is a utility class!!!! *******");
+    }
+
+    public static void createPositions(){
+        for(int i = 0; i < boardMaxDimensions; i++) {
+            for(int j = 0; j < boardMaxDimensions; j++) {
+                board[i][j] = new Position(i, j);
+            }
+        }
+    }
+
+    public static Position getPosition(int file, int row) {
+        return board[file][file];
     }
 
     /**
@@ -22,17 +33,15 @@ public final class Board {
      * @return Is the board empty in a specified position.
      */
     public static boolean isEmpty(Position pos) {
-        return whitePositions.contains(pos) || blackPositions.contains(pos);
+        return board[pos.getFile()][pos.getRow()].isEmpty();
     }
 
-    public static void addPieceInPosition(Position pos, boolean isWhite) {
-        if (isWhite) whitePositions.add(pos);
-        else blackPositions.add(pos);
+    public static void addPiece(Position pos, Piece piece) {
+        board[pos.getFile()][pos.getRow()].setPiece(piece);
     }
 
-    public static void removePieceInPosition(Position pos, boolean isWhite) {
-        if (isWhite) whitePositions.remove(pos);
-        else blackPositions.remove(pos);
+    public static void removePiece(Position pos) {
+        board[pos.getFile()][pos.getRow()].setPiece(null);
     }
 
     /**
@@ -40,8 +49,10 @@ public final class Board {
      * @param pos     the position to check.
      * @return whether the specified position has enemy pieces.
      */
-    public static boolean hasEnemyPieces(Position pos, boolean isWhite) {
-        return isWhite ? blackPositions.contains(pos) : whitePositions.contains(pos);
+    public static boolean hasEnemyPiece(Position pos, boolean isWhite) {
+        if (!board[pos.getFile()][pos.getRow()].isEmpty())
+            return isWhite ? !board[pos.getFile()][pos.getRow()].getPiece().isWhite() : board[pos.getFile()][pos.getRow()].getPiece().isWhite();
+        else return false;
     }
 
     public static void addAttackedPosition(Position pos, boolean isWhite) {
@@ -65,10 +76,14 @@ public final class Board {
         return isWhite ? whiteAttackedPositions.contains(pos) : blackAttackedPositions.contains(pos);
     }
 
+    public static Position[][] getBoard(){
+        return board;
+    }
+
 
     /**
      * @param fileOrRow specify whether you want to check if the file or the row exists.
-     * @return does the specified file or row exist on the board.
+     * @return does the file or row exist on the board.
      */
     public static boolean exists(int fileOrRow) {
         return fileOrRow > boardMinDimensions && fileOrRow <= boardMaxDimensions;
@@ -76,5 +91,18 @@ public final class Board {
 
     public static boolean exists(int file, int row) {
         return exists(row) && exists(file);
+    }
+
+    /**
+     * This method is used for doing all the actions of every move, every piece class implements move methods for its specific cases.
+     */
+    public static void move(Piece piece, Position moveTo, boolean isWhite) {
+        for (Position p : piece.possibleMoves())
+            Board.removeAttackedPosition(p, isWhite);
+        Board.removePiece(piece.getPosition());
+        piece.setPosition(moveTo);
+        Board.addPiece(piece.getPosition(), piece);
+        for (Position p : piece.possibleMoves())
+            Board.addAttackedPosition(p, isWhite);
     }
 }

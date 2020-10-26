@@ -17,14 +17,14 @@ public class Splash extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        TimerTask tt = new TimerTask() {
+        TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
                 Intent i = new Intent(Splash.this, GameActivity.class);
                 startActivity(i);
             }
         };
-        Timer t = new Timer();
-        t.schedule(tt, 3000);
+        Timer timer = new Timer();
+        timer.schedule(timerTask, 3000);
     }
 }

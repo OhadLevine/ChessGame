@@ -16,8 +16,10 @@ public abstract class Piece {
     /** @return the default position of the piece. */
     public abstract Position getDefaultPosition(boolean isWhite);
 
-
+    /** @return the current position of the piece. */
     public abstract Position getPosition();
 
     public abstract void setPosition(Position position);
+
+    public abstract boolean isWhite();
 }
